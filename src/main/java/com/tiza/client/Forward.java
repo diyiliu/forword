@@ -67,7 +67,7 @@ public class Forward {
                                     int speed, int direction, int height, byte[] state, String datetime) {
 
         ICache monitorCache = (ICache) SpringUtil.getBean("monitorCache");
-        Header header = (Header) SpringUtil.getBean("header");
+        Header configHeader = (Header) SpringUtil.getBean("header");
 
         ByteBuf buf = Unpooled.buffer();
         buf.writeByte(vinCode.getBytes().length);
@@ -86,7 +86,9 @@ public class Forward {
         byte[] content = new byte[buf.writerIndex()];
         buf.readBytes(content);
 
-        header.setLength(12 + buf.readableBytes());
+        Header header = new Header(configHeader.getForwardVersion(),
+                configHeader.getSource(), configHeader.getMessageType());
+        header.setLength(12 + content.length);
         header.setDatetime(new Date());
         header.setCmd(0x03);
 
@@ -98,6 +100,7 @@ public class Forward {
         if (monitorCache.containsKey(vinCode)){
             logger.error("发送数据到网关...[{},{},{}]", new Object[] { "位置", vinCode, Common.byteToString(bytes) });
         }
+        //logger.error("发送数据到网关...[{},{},{}]", new Object[] { "位置", vinCode, Common.byteToString(bytes) });
     }
 
 
@@ -106,7 +109,7 @@ public class Forward {
                                     int type, int length, List<WorkParam> workParams) {
 
         ICache monitorCache = (ICache) SpringUtil.getBean("monitorCache");
-        Header header = (Header) SpringUtil.getBean("header");
+        Header configHeader = (Header) SpringUtil.getBean("header");
 
         ByteBuf buf = Unpooled.buffer();
         buf.writeByte(vinCode.getBytes().length);
@@ -132,7 +135,10 @@ public class Forward {
         byte[] content = new byte[buf.writerIndex()];
         buf.readBytes(content);
 
-        header.setLength(12 + buf.readableBytes());
+        Header header = new Header(configHeader.getForwardVersion(),
+                configHeader.getSource(), configHeader.getMessageType());
+
+        header.setLength(12 + content.length);
         header.setDatetime(new Date());
         header.setCmd(0x04);
 
@@ -144,5 +150,6 @@ public class Forward {
         if (monitorCache.containsKey(vinCode)){
             logger.error("发送数据到网关...[{},{},{}]", new Object[] { "工况", vinCode, Common.byteToString(bytes) });
         }
+        //logger.error("发送数据到网关...[{},{},{}]", new Object[] { "工况", vinCode, Common.byteToString(bytes) });
     }
 }

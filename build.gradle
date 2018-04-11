@@ -41,5 +41,5 @@ task copyJars(type: Copy) {
 }
 
 jar {
-    archiveName = 'forward-1.1.jar'
+    archiveName = 'forward-1.2.jar'
 }

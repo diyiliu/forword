@@ -13,6 +13,16 @@ import java.util.Date;
  */
 public class Header {
 
+    public Header() {
+
+    }
+
+    public Header(int forwardVersion, int source, int messageType) {
+        this.forwardVersion = forwardVersion;
+        this.source = source;
+        this.messageType = messageType;
+    }
+
     private int length;
     private int forwardVersion;
     private int source;

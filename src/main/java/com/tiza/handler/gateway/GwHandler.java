@@ -50,6 +50,7 @@ public class GwHandler extends ChannelInboundHandlerAdapter {
                     while (!queue.isEmpty()) {
                         byte[] bytes = queue.poll();
 
+                        //logger.error("转发CBMS[{}]", Common.byteToString(bytes));
                         context.writeAndFlush(Unpooled.copiedBuffer(bytes));
                     }
                 }
@@ -113,7 +114,10 @@ public class GwHandler extends ChannelInboundHandlerAdapter {
             } else if (IdleState.WRITER_IDLE == event.state()) {
                 //logger.warn("写超时...");
                 // 协议头
-                Header header = (Header) SpringUtil.getBean("header");
+                Header configHeader = (Header) SpringUtil.getBean("header");
+
+                Header header = new Header(configHeader.getForwardVersion(),
+                        configHeader.getSource(), configHeader.getMessageType());
                 header.setLength(12);
                 header.setDatetime(new Date());
                 header.setCmd(0x00);
@@ -129,7 +133,10 @@ public class GwHandler extends ChannelInboundHandlerAdapter {
     public void sendLogin() {
 
         // 协议头
-        Header header = (Header) SpringUtil.getBean("header");
+        Header configHeader = (Header) SpringUtil.getBean("header");
+
+        Header header = new Header(configHeader.getForwardVersion(),
+                configHeader.getSource(), configHeader.getMessageType());
         header.setLength(12 + 4);
         header.setDatetime(new Date());
         header.setCmd(0x02);

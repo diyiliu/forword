@@ -36,8 +36,12 @@ public class TlbsHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         logger.info("建立连接...");
 
+
         // 协议头
-        Header header = (Header) SpringUtil.getBean("header");
+        Header configHeader = (Header) SpringUtil.getBean("header");
+
+        Header header = new Header(configHeader.getForwardVersion(),
+                configHeader.getSource(), configHeader.getMessageType());
         header.setLength(12 + 6);
         header.setDatetime(new Date());
         header.setCmd(0x01);
