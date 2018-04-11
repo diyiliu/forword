@@ -118,7 +118,7 @@ public class GwHandler extends ChannelInboundHandlerAdapter {
                 header.setDatetime(new Date());
                 header.setCmd(0x00);
 
-                ctx.writeAndFlush(Unpooled.copiedBuffer(header.toBuffer()));
+                ctx.writeAndFlush(Unpooled.copiedBuffer(header.toBytes()));
             } else if (IdleState.ALL_IDLE == event.state()) {
                 //logger.warn("读/写超时...");
             }
@@ -136,7 +136,7 @@ public class GwHandler extends ChannelInboundHandlerAdapter {
 
         Long now = System.currentTimeMillis() / (1000 * 3600);
         ByteBuf buf = Unpooled.buffer(16);
-        buf.writeBytes(header.toBuffer());
+        buf.writeBytes(header.toBytes());
         buf.writeInt(now.intValue());
 
         // 登陆指令

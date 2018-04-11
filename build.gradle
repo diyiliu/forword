@@ -4,15 +4,7 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'idea'
 
-compileJava {
-    sourceCompatibility = 1.7
-    targetCompatibility = 1.7
-}
-
-compileTestJava {
-    sourceCompatibility = 1.7
-    targetCompatibility = 1.7
-}
+sourceCompatibility = 1.7
 
 ext {
     logbackVersion = '1.1.3'
@@ -35,6 +27,8 @@ dependencies {
             "org.springframework:spring-beans:$springVersion",
             "org.springframework:spring-context:$springVersion"
     )
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 tasks.withType(JavaCompile) {
@@ -44,4 +38,8 @@ tasks.withType(JavaCompile) {
 task copyJars(type: Copy) {
     from configurations.runtime
     into 'dist' // 目标位置
+}
+
+jar {
+    archiveName = 'forward-1.1.jar'
 }

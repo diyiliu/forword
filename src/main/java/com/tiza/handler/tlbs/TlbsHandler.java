@@ -46,7 +46,7 @@ public class TlbsHandler extends ChannelInboundHandlerAdapter {
 
         Long hour = System.currentTimeMillis() / (1000 * 3600);
 
-        buf.writeBytes(header.toBuffer());
+        buf.writeBytes(header.toBytes());
         buf.writeInt(hour.intValue());
         buf.writeShort(2000);
 

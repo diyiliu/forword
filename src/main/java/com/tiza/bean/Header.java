@@ -68,8 +68,7 @@ public class Header {
         this.cmd = cmd;
     }
 
-    public ByteBuf toBuffer() {
-
+    public byte[] toBytes() {
         ByteBuf buf = Unpooled.buffer(12);
         buf.writeShort(length);
         buf.writeByte(forwardVersion);
@@ -78,6 +77,6 @@ public class Header {
         buf.writeByte(messageType);
         buf.writeByte(cmd);
 
-        return buf;
+        return buf.array();
     }
 }

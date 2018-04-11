@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/forward.iml" filepath="$PROJECT_DIR$/forward.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/forward_main.iml" filepath="$PROJECT_DIR$/.idea/modules/forward_main.iml" group="forward" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/forward_test.iml" filepath="$PROJECT_DIR$/.idea/modules/forward_test.iml" group="forward" />
     </modules>
   </component>
 </project>

@@ -11,7 +11,6 @@ import io.netty.buffer.Unpooled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Queue;
@@ -84,11 +83,14 @@ public class Forward {
         buf.writeBytes(state);
         buf.writeBytes(Common.dateToBytes(DateUtil.stringToDate(datetime)));
 
+        byte[] content = new byte[buf.writerIndex()];
+        buf.readBytes(content);
+
         header.setLength(12 + buf.readableBytes());
         header.setDatetime(new Date());
         header.setCmd(0x03);
 
-        ByteBuf byteBuf = Unpooled.copiedBuffer(header.toBuffer(), buf);
+        ByteBuf byteBuf = Unpooled.copiedBuffer(header.toBytes(), content);
         byte[] bytes = byteBuf.array();
 
         put(bytes);
@@ -127,11 +129,14 @@ public class Forward {
             buf.writeBytes(workParam.getContent());
         }
 
+        byte[] content = new byte[buf.writerIndex()];
+        buf.readBytes(content);
+
         header.setLength(12 + buf.readableBytes());
         header.setDatetime(new Date());
         header.setCmd(0x04);
 
-        ByteBuf byteBuf = Unpooled.copiedBuffer(header.toBuffer(), buf);
+        ByteBuf byteBuf = Unpooled.copiedBuffer(header.toBytes(), content);
         byte[] bytes = byteBuf.array();
 
         put(bytes);
